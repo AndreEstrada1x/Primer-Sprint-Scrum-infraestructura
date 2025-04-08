@@ -1,4 +1,4 @@
-# EduVial – Infraestructura del Backend 🚦
+# EduVial – Infraestructura del Backend 
 
 Este proyecto define la infraestructura de la API de EduVial utilizando Docker. El backend está desarrollado con Node.js y Express, y se conecta a una base de datos PostgreSQL, todo orquestado con Docker Compose.
 
