@@ -1,15 +1,15 @@
-FROM nginx:alpine
+FROM cirrusci/flutter:3.19.6
 
-# Crear carpeta temporal
-WORKDIR /tmp
+WORKDIR /app
 
-# Clonar el frontend
-RUN apk add git && \
-    git clone https://github.com/Jonialen/EduVial-Frontend.git && \
-    mv EduVial-Frontend/build/web /usr/share/nginx/html && \
-    rm -rf /tmp/*
+# Clonar el frontend desde GitHub
+RUN git clone https://github.com/Jonialen/EduVial-Frontend.git .
 
-# Expone puerto estándar para web
-EXPOSE 80
+# Instalar dependencias
+RUN flutter pub get
 
-CMD ["nginx", "-g", "daemon off;"]
+# Compilar APK (puedes cambiar por build web o iOS si quieres)
+RUN flutter build apk --release
+
+# Dejar el APK disponible en una ruta compartida
+CMD ["bash"]

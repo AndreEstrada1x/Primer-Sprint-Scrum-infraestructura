@@ -1,37 +1,11 @@
 version: '3.8'
 
 services:
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: eduvial-backend
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    environment:
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_USER=postgres
-      - DB_PASSWORD=postgres
-      - DB_NAME=eduvial
-    networks:
-      - eduvial-net
-
-  frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: eduvial-frontend
-    ports:
-      - "8080:80"
-    networks:
-      - eduvial-net
-
+  services:
   db:
     image: postgres:15
     container_name: eduvial-db
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -40,6 +14,34 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - eduvial-net
+
+  backend:
+    build:
+      context: ./backend
+    container_name: eduvial-backend
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=eduvial
+    ports:
+      - "3000:3000"
+    networks:
+      - eduvial-net
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: eduvial-frontend
+    volumes:
+      - ./frontend:/app
+    tty: true
     networks:
       - eduvial-net
 
