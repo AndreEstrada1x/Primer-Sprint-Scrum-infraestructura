@@ -13,11 +13,9 @@ services:
     environment:
       - DB_HOST=db
       - DB_PORT=5432
-      - DB_USER=${POSTGRES_USER}
-      - DB_PASSWORD=${POSTGRES_PASSWORD}
-      - DB_NAME=${POSTGRES_DB}
-    volumes:
-      - ./backend:/app
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=eduvial
     networks:
       - eduvial-net
 
@@ -34,7 +32,6 @@ services:
   db:
     image: postgres:15
     container_name: eduvial-db
-    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres

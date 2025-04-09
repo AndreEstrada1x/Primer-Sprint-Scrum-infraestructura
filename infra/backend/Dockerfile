@@ -1,20 +1,16 @@
-# Usamos una imagen oficial de Node.js como base
 FROM node:20
 
-# Establece el directorio de trabajo dentro del contenedor
+# Crear directorio
 WORKDIR /app
 
-# Copia los archivos de configuración y dependencias
-COPY package*.json ./
+# Clonar el repo del backend directamente
+RUN git clone https://github.com/Jonialen/EduVial-Backend.git .
 
-# Instala las dependencias
+# Instalar dependencias
 RUN npm install
 
-# Copia el resto del código fuente al contenedor
-COPY . .
-
-# Expone el puerto en el que corre tu backend (ajústalo si usas otro)
+# Exponer el puerto (ajusta si es otro)
 EXPOSE 3000
 
-# Comando para iniciar la app
+# Comando para ejecutar el servidor
 CMD ["node", "index.js"]
